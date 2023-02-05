@@ -1,2 +1,4 @@
 import { Categories } from "./CategoryPage";
-export { Categories };
+import { Signs } from "./SignPage";
+
+export { Categories, Signs };
