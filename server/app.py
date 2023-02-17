@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from flask_cors import CORS
 import os
+from main import script
 
 app = Flask(__name__)
 CORS(app)
@@ -13,8 +14,8 @@ def upload_file():
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
         print(uploaded_file.filename)
-        uploaded_file.save(uploaded_file.filename + ".mp4")
-
+        uploaded_file.save( "./videos/class/" + uploaded_file.filename + ".mp4")
+        script()
     return {"msg":"What am I DOING"},200
 
 

@@ -1,0 +1,7 @@
+LABELS = {
+"class":[
+0,
+"class"
+]
+}
+N_CLASSES = 4
