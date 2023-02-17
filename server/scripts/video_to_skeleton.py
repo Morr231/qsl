@@ -44,73 +44,71 @@ def main(input_dir: Path, out_dir: Path):
     out_dir.parent.mkdir(parents=True, exist_ok=True)
 
     skel_writer = skeleton_writer.SkeletonWriter()
-    folder = Path(all_folders[0])
 
-    # for folder in all_folders:
+    for folder in all_folders:
 
-    # Get all video in folder.
-    all_vid_path = [v for v in folder.glob("*.mp4")]
-    # num_videos = len(all_vid_path)
-    # logging.info(f"Globing {folder} Found {num_videos} videos.")
+        # Get all video in folder.
+        all_vid_path = [v for v in folder.glob("*.mp4")]
+        num_videos = len(all_vid_path)
+        logging.info(f"Globing {folder} Found {num_videos} videos.")
 
-    # if num_videos < 0:
-    #     logging.warning(f"No video, skipped.")
+        if num_videos < 0:
+            logging.warning(f"No video, skipped.")
 
-    # Read each video.
-    # for video_path in tqdm(all_vid_path):
-    video_path = Path(all_vid_path[0])
-    try:
-        # Check if video valid.
-        cap = cv2.VideoCapture(video_path.as_posix())
-        ret, frame = cap.read()
-        if not ret or frame is None:
-            logging.warning(f"Frame invalid {video_path}, finish video")
-            skel_writer.finish_video()
-            return
+        # Read each video.
+        for video_path in tqdm(all_vid_path):
+            try:
+                # Check if video valid.
+                cap = cv2.VideoCapture(video_path.as_posix())
+                ret, frame = cap.read()
+                if not ret or frame is None:
+                    logging.warning(f"Frame invalid {video_path}, finish video")
+                    skel_writer.finish_video()
+                    continue
 
-        num_frame = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+                num_frame = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
-        # Read each frame.
-        frame_control = 0
-        while frame_control < num_frame - 1:
-            ret, frame = cap.read()
+                # Read each frame.
+                frame_control = 0
+                while frame_control < num_frame - 1:
+                    ret, frame = cap.read()
 
-            frame_control += 1
+                    frame_control += 1
 
-            frame = utils.crop_utils.letterbox_image(frame, VIDEO_SIZE)
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                    frame = utils.crop_utils.letterbox_image(frame, VIDEO_SIZE)
+                    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-            # Detect frame with holistic.
-            frame_res = holistic(frame_rgb)
+                    # Detect frame with holistic.
+                    frame_res = holistic(frame_rgb)
 
-            skel_writer.add_keypoints(frame_res)
+                    skel_writer.add_keypoints(frame_res)
 
-            # cv2.imshow("", cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2BGR))
+                    # cv2.imshow("", cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2BGR))
 
-            # key = cv2.waitKey(1)
+                    # key = cv2.waitKey(1)
 
-            # if key == ord("q"):
-            #     cap.release()
-            #     cv2.destroyAllWindows()
-            #     exit()
+                    # if key == ord("q"):
+                    #     cap.release()
+                    #     cv2.destroyAllWindows()
+                    #     exit()
 
-        # wrapup video.
-        skel_writer.finish_video()
-    except Exception as e:
-        logging.warning(f"Can't process {video_path}, skipped.")
-        skel_writer.reset(clear_dump=False)
+                # wrapup video.
+                skel_writer.finish_video()
+            except Exception as e:
+                logging.warning(f"Can't process {video_path}, skipped.")
+                skel_writer.reset(clear_dump=False)
 
-    # write h5 contain all video.
-    h5_name = folder.name + ".h5"
-    skel_writer.finish_file(out_dir / h5_name)
+        # write h5 contain all video.
+        h5_name = folder.name + ".h5"
+        skel_writer.finish_file(out_dir / h5_name)
 
 
-if __name__ == "__main__":
+# if name == "main":
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('input_dir')
-    parser.add_argument('output_dir')
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument('input_dir')
+#     parser.add_argument('output_dir')
 
-    args = parser.parse_args()
+#     args = parser.parse_args()
 
-    main(Path(args.input_dir), Path(args.output_dir))
+#     main(Path(args.input_dir), Path(args.output_dir))

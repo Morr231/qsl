@@ -63,11 +63,11 @@ def script():
 
     # recorder()
 
-    os.remove("sklnt/class.h5")
-
-
 
     main(Path("videos"), Path("sklnt"))
+
+    # os.remove("sklnt/class.h5")
+
 
     os.remove("videos/class/blob.mp4")
 
