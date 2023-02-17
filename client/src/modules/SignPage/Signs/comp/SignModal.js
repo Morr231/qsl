@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from "react";
+import axios from "axios";
 
 import { Modal, Button } from "../../../../components";
 import Webcam from "react-webcam";
@@ -46,19 +47,33 @@ const SignModal = ({ setShowModal }) => {
         setCapturing(false);
     }, [mediaRecoredRef, setCapturing]);
 
-    const handleDownload = useCallback(() => {
+    const handleDownload = useCallback(async () => {
         if (recordedChunks.length) {
             const blob = new Blob(recordedChunks, {
                 type: "video/webm",
             });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            document.body.appendChild(a);
-            a.style = "display: none";
-            a.href = url;
-            a.download = "react-webcam-stream-capture.mp4";
-            a.click();
-            window.URL.revokeObjectURL(url);
+
+            const fd = new FormData();
+            fd.append("file", blob);
+
+            console.log(fd);
+
+            const result = await axios.post("http://127.0.0.1:5000/", fd, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            console.log(result);
+
+            // const url = URL.createObjectURL(blob);
+            // const a = document.createElement("a");
+            // document.body.appendChild(a);
+            // a.style = "display: none";
+            // a.href = url;
+            // a.download = "react-webcam-stream-capture.mp4";
+            // a.click();
+            // window.URL.revokeObjectURL(url);
             setRecordedChunks([]);
         }
     }, [recordedChunks]);
