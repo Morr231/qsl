@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import SignModal from "./comp/sign-modal";
+import SignModal from "./comp/SignModal";
 import { Card } from "../../../components";
 
 import "./Signs.sass";
