@@ -1,17 +1,18 @@
 import cv2
 from scripts.video_to_skeleton import *
 import os
-from tensorflow.keras import backend as Ktr
-from tensorflow.keras.layers import *
-from tensorflow.keras.models import Model
-from tensorflow.keras.optimizers import *
-from tensorflow.keras.callbacks import *
 import tensorflow as tf
+from keras import backend as Ktr
+from keras.layers import *
+from keras.models import Model
+from keras.optimizers import *
+from keras.callbacks import *
 import pickle
 import gin
 from tqdm import tqdm
 #import gctr
 from pathlib import Path
+from recorder import recorder
 import glob
 import cv2
 import matplotlib.pyplot as plt
@@ -69,7 +70,7 @@ def script():
     # os.remove("sklnt/class.h5")
 
 
-    os.remove("videos/class/blob.mp4")
+    # os.remove("videos/class/blob.mp4")
 
 
 
@@ -78,4 +79,4 @@ def script():
 
     inputs, y_true = train_generator.__getitem__(10, None)
     feats_pred, cls_pred = model(inputs, training = False)
-    print(classes[np.argmax(cls_pred)])
+    return classes[np.argmax(cls_pred)]

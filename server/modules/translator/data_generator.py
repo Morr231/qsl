@@ -19,7 +19,7 @@ from pathlib import Path
 import gin
 import numpy as np
 import numpy.typing as npt
-from tensorflow.keras.utils import Sequence
+from keras.utils import Sequence
 
 from modules import utils
 

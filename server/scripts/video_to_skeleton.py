@@ -56,17 +56,20 @@ def main(input_dir: Path, out_dir: Path):
             logging.warning(f"No video, skipped.")
 
         # Read each video.
+
         for video_path in tqdm(all_vid_path):
             try:
                 # Check if video valid.
                 cap = cv2.VideoCapture(video_path.as_posix())
+                num_frame = 60
                 ret, frame = cap.read()
                 if not ret or frame is None:
                     logging.warning(f"Frame invalid {video_path}, finish video")
                     skel_writer.finish_video()
                     continue
 
-                num_frame = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+
+                print(num_frame)
 
                 # Read each frame.
                 frame_control = 0
@@ -103,12 +106,12 @@ def main(input_dir: Path, out_dir: Path):
         skel_writer.finish_file(out_dir / h5_name)
 
 
-# if name == "main":
+if __name__ == "main":
 
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('input_dir')
-#     parser.add_argument('output_dir')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('input_dir')
+    parser.add_argument('output_dir')
 
-#     args = parser.parse_args()
+    args = parser.parse_args()
 
-#     main(Path(args.input_dir), Path(args.output_dir))
+    main(Path(args.input_dir), Path(args.output_dir))

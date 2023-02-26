@@ -2,8 +2,8 @@ import gin
 import numpy as np
 import numpy.typing as npt
 import tensorflow as tf
-from tensorflow.keras.layers import *
-from tensorflow.keras.models import Model
+from keras.layers import *
+from keras.models import Model
 
 from modules import utils
 
