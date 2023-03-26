@@ -32,7 +32,7 @@ const SignModal = ({ setShowModal }) => {
         });
         setInterval(() => {
             detectFace(network);
-        }, 500);
+        }, 100);
     };
 
     useEffect(() => {

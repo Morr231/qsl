@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { MainPage, CategoryPage, SignsPage } from "../pages";
+import { MainPage, CategoryPage, SignsPage, LandingPage } from "../pages";
 
 const router = createBrowserRouter([
     // {
@@ -8,7 +8,7 @@ const router = createBrowserRouter([
     // },
     {
         path: "/",
-        element: <CategoryPage />,
+        element: <LandingPage />,
     },
     {
         path: "/categories/:categoryid",
