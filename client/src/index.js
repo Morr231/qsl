@@ -7,7 +7,8 @@ import router from "./utils/routes";
 import "./global-styles/index.css";
 
 // This is we.
-
+//hello aruzhan
+//ardaq again
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     // <React.StrictMode>
