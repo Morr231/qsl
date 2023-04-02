@@ -7,6 +7,7 @@ const MainPageLayout = ({ children }) => {
         <div className="main-page-layout">
             <Navigation />
             <div className="main-page-layout__children">{children}</div>
+            <Navigation />
         </div>
     );
 };
