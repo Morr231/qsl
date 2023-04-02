@@ -6,7 +6,13 @@ const Button = ({ text, action, styleType, type, ...props }) => {
         <>
             <button
                 onClick={action}
-                className={`btn ${type === "delete" ? "btn-delete" : ""}`}
+                className={`btn ${
+                    styleType === "delete"
+                        ? "btn-delete"
+                        : styleType === "outline"
+                        ? "btn-outline"
+                        : ""
+                }`}
                 type={type}
                 {...props}
             >
