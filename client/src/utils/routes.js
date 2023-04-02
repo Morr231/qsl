@@ -1,18 +1,31 @@
 import { createBrowserRouter } from "react-router-dom";
-import { MainPage, CategoryPage, SignsPage } from "../pages";
+import { MainPage, CategoryPage, SignsPage, LangindPage } from "../pages";
+import { MainPageLayout } from "../layouts";
 
 const router = createBrowserRouter([
     // {
     //     path: "/",
     //     element: <MainPage />,
     // },
+    // {
+    //     path: "/",
+    //     element: <CategoryPage />,
+    // },
+    // {
+    //     path: "/categories/:categoryid",
+    //     element: <SignsPage />,
+    // },
     {
         path: "/",
-        element: <CategoryPage />,
+        element: <LangindPage />,
     },
     {
-        path: "/categories/:categoryid",
-        element: <SignsPage />,
+        path: "/categories",
+        element: (
+            <MainPageLayout>
+                <CategoryPage />
+            </MainPageLayout>
+        ),
     },
 ]);
 
