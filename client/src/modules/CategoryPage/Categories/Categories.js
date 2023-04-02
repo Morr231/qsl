@@ -5,26 +5,25 @@ import Category from "../Category/Category";
 import "./Categories.sass";
 
 const Categories = ({ categories }) => {
-    return (
-        <div className="categories">
-            <div className="categories__content">
-                {categories.map((category, index) => (
-                    <div
-                        className={`categories__content__el categories-${
-                            index % 2 === 0 ? "left" : "right"
-                        }`}
-                        style={{
-                            top: index * 200 + 20 + "px",
-                            left: index % 2 === 0 ? "20px" : 0,
-                            right: index % 2 !== 0 ? "20px" : 0,
-                        }}
-                    >
-                        <Category category={category} />
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+  return (
+    <div style={{ width: "100%" }} className="categories">
+      <div
+        className="categories__content"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        {categories.map((category, index) => (
+          <div>
+            <Category category={category} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Categories;
