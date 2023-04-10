@@ -20,6 +20,7 @@ const SignModal = ({ setShowModal }) => {
 
     const [isClose, setIsClose] = useState(false);
     const [closeTimer, setCloseTimer] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [capturing, setCapturing] = useState(false);
     const [recordedChunks, setRecordedChunks] = useState([]);
@@ -103,45 +104,45 @@ const SignModal = ({ setShowModal }) => {
 
             // 3 midpoints
 
-            ctx.beginPath();
-            ctx.arc((xBR + xTL) / 2, yTL, 5, 0, 3 * Math.PI);
-            ctx.fillStyle = "red";
-            ctx.fill();
+            // ctx.beginPath();
+            // ctx.arc((xBR + xTL) / 2, yTL, 5, 0, 3 * Math.PI);
+            // ctx.fillStyle = "red";
+            // ctx.fill();
 
-            ctx.beginPath();
-            ctx.arc(xBR, (yBR + yTL) / 2, 5, 0, 3 * Math.PI);
-            ctx.fillStyle = "red";
-            ctx.fill();
+            // ctx.beginPath();
+            // ctx.arc(xBR, (yBR + yTL) / 2, 5, 0, 3 * Math.PI);
+            // ctx.fillStyle = "red";
+            // ctx.fill();
 
-            ctx.beginPath();
-            ctx.arc(xTL, (yBR + yTL) / 2, 5, 0, 3 * Math.PI);
-            ctx.fillStyle = "red";
-            ctx.fill();
+            // ctx.beginPath();
+            // ctx.arc(xTL, (yBR + yTL) / 2, 5, 0, 3 * Math.PI);
+            // ctx.fillStyle = "red";
+            // ctx.fill();
 
             // corner points
 
-            ctx.beginPath();
-            ctx.arc(videoWidth / 2, 50, 5, 0, 3 * Math.PI);
-            ctx.fillStyle = "red";
-            ctx.fill();
+            // ctx.beginPath();
+            // ctx.arc(videoWidth / 2, 50, 5, 0, 3 * Math.PI);
+            // ctx.fillStyle = "red";
+            // ctx.fill();
 
-            ctx.beginPath();
-            ctx.arc(videoWidth / 2 + 130, 175, 5, 0, 3 * Math.PI);
-            ctx.fillStyle = "red";
-            ctx.fill();
+            // ctx.beginPath();
+            // ctx.arc(videoWidth / 2 + 130, 175, 5, 0, 3 * Math.PI);
+            // ctx.fillStyle = "red";
+            // ctx.fill();
 
-            ctx.beginPath();
-            ctx.arc(videoWidth / 2 - 130, 175, 5, 0, 3 * Math.PI);
-            ctx.fillStyle = "red";
-            ctx.fill();
+            // ctx.beginPath();
+            // ctx.arc(videoWidth / 2 - 130, 175, 5, 0, 3 * Math.PI);
+            // ctx.fillStyle = "red";
+            // ctx.fill();
 
             if (
-                yTL - 50 <= 50.0 &&
-                yTL - 50 >= -20.0 &&
-                xBR <= 500.0 &&
-                xBR >= 400.0 &&
-                xTL <= 240.0 &&
-                xTL >= 140.0
+                yTL - 50 <= 10.0 &&
+                yTL - 50 >= -100.0 &&
+                xBR <= 600.0 &&
+                xBR >= 300.0 &&
+                xTL <= 340.0 &&
+                xTL >= 40.0
             ) {
                 setIsClose(true);
             } else {
@@ -152,7 +153,7 @@ const SignModal = ({ setShowModal }) => {
         }
     };
 
-    loadFacemesh();
+    // loadFacemesh();
 
     const handleDataAvailable = useCallback(
         ({ data }) => {
@@ -174,7 +175,7 @@ const SignModal = ({ setShowModal }) => {
             handleDataAvailable
         );
         mediaRecoredRef.current.start();
-        setTimeout(() => handleStopCaptureClick(), 5000);
+        setTimeout(() => handleStopCaptureClick(), 4000);
     }, [webcamRef, setCapturing, mediaRecoredRef, handleDataAvailable]);
 
     const handleStopCaptureClick = useCallback(() => {
@@ -202,6 +203,7 @@ const SignModal = ({ setShowModal }) => {
 
             console.log(fd);
 
+            setLoading(true);
             const result = await axios.post("http://127.0.0.1:5000/", fd, {
                 headers: {
                     "Content-Type": "multipart/form-data",
@@ -210,6 +212,7 @@ const SignModal = ({ setShowModal }) => {
 
             if (result.status === 200) {
                 setCurrentSign(result.data);
+                setLoading(false);
             }
 
             // const url = URL.createObjectURL(blob);
@@ -230,7 +233,7 @@ const SignModal = ({ setShowModal }) => {
             setShowModal={() => setShowModal(false)}
         >
             <div className="modal-main__el">
-                <h1>Try to do this sign</h1>
+                <h1>Попробуй!</h1>
 
                 <div
                     style={{
@@ -238,19 +241,18 @@ const SignModal = ({ setShowModal }) => {
                     }}
                 >
                     <iframe
-                        src="https://drive.google.com/file/d/14CfPyyTlHNHkcmNeD7WD5MijegbQFAb3/preview"
                         width="400"
                         height="300"
-                        allow="autoplay"
-                        allowfullscreen
+                        src="https://www.youtube.com/embed/MHx0h4f3flg?playlist=MHx0h4f3flg&loop=1&autoplay=1&controls=0&showinfo=0&mute=1"
                     ></iframe>
+
                     <div className="modal-main__el__webcam">
                         <Webcam
                             mirrored
                             ref={webcamRef}
                             style={{ height: "300px", width: "400px" }}
                         />
-
+                        {/* 
                         {closeTimer && (
                             <img
                                 src={
@@ -266,7 +268,7 @@ const SignModal = ({ setShowModal }) => {
                                     height: 300,
                                 }}
                             />
-                        )}
+                        )} */}
 
                         <canvas
                             ref={canvasReference}
@@ -281,16 +283,21 @@ const SignModal = ({ setShowModal }) => {
                     </div>
                 </div>
 
-                {currentSign && <>{currentSign}</>}
+                {loading && <div className="modal__text">Загрузка</div>}
+
+                {currentSign && (
+                    <div className="modal__text">{currentSign}</div>
+                )}
 
                 {!capturing ? (
                     <Button
+                        styleType="outline"
                         text="Старт"
-                        style={{ width: "20%" }}
+                        style={{ width: "100%", marginTop: "2rem" }}
                         action={handleStartCaptureClick}
                     />
                 ) : (
-                    <>Запись</>
+                    <div className="modal__text">Идёт Запись</div>
                 )}
             </div>
         </Modal>

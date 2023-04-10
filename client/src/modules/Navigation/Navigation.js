@@ -18,6 +18,8 @@ const navigationEl = [
 ];
 
 const Navigation = () => {
+    console.log(navigationEl);
+
     return (
         <div className="navigation">
             <h2 className="navigation__header">QSL</h2>

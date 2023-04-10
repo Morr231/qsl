@@ -15,12 +15,12 @@ const router = createBrowserRouter([
     //     path: "/categories/:categoryid",
     //     element: <SignsPage />,
     // },
+    // {
+    //     path: "/",
+    //     element: <LangindPage />,
+    // },
     {
         path: "/",
-        element: <LangindPage />,
-    },
-    {
-        path: "/categories",
         element: (
             <MainPageLayout>
                 <CategoryPage />
